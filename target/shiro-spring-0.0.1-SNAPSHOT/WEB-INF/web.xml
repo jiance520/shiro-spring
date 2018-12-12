@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaeehttp://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>shiro-spring</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name><!-- 必须要有<param-name> -->
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	<!-- 配置监听器，启动spring容器，就是读取application.xml里的bean，默认找web-inf/applicationContext.xml-->
+	<!--ContextLoaderListener的作用就是启动Web容器时，读取context-param，自动装配ApplicationContext.xml的配置信息。 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	
+	<!-- 配置spring整合shiro的过滤器 -->
+	<!-- DelegatingFilterProxy作用是把请求拦截下来，给spring容器的bean=shiroFilter对象处理，spring容器的bean对应的类在applicationContext.xml里配置-->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/</url-pattern>
+	</filter-mapping>
+
+	<!-- 启动SpringMVC -->
+	<servlet>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

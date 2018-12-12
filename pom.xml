@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.sm1234</groupId>
+	<artifactId>shiro-spring</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-all</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--导入SpringMVC支持，Missing artifact org.springframework:srping-webmvc:jar:4.3.3.RELEASE错误：保持网络，换新版本，或空格保存重新更新或重起eclipses来重新下载？下载慢，容易下载失败或卡住，则无限重起eclipse更新，直到progress完成(重点),断断续续下载达1小时 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId><!--spring-webmvc包括spring-web中的jar，spring-web包括spring-core 
+				spring-context spring-aop spring-beans spring-web spring-expression -->
+			<version>4.3.3.RELEASE</version>
+		</dependency>
+		<!--导入Spring坐标/依赖 -->
+		<!--<dependency> <groupId>org.springframework</groupId> <artifactId>spring-web</artifactId> 
+			<version>4.3.18.RELEASE</version> </dependency> -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>8090</port><!--注意，这个不是自己的本地tomcat的端口 -->
+					<server>tomcat7</server>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
