@@ -5,20 +5,32 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/aop
-http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+http://www.springframework.org/schema/aop/spring-aop.xsd
 http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context-4.3.xsd
+http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/tx
-http://www.springframework.org/schema/tx/spring-tx-4.3.xsd"
+http://www.springframework.org/schema/tx/spring-tx.xsd"
 	xmlns:tx="http://www.springframework.org/schema/tx">
-	<!-- shiro与spring整合 -->
-	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+	<!-- shiro与spring整合 <property name的值是固定写法 -->
+	<bean id="shiroFilter"
+		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<!-- 关联securityManager -->
 		<property name="securityManager" ref="securityManager" />
+		<!-- 使用shiro内置过滤器拦截资源，可以取代shiro.ini，不在web.xml里配置<param-value>classpath:shiro.ini /user/login=anon -->
+		<property name="filterChainDefinitions">
+			<value>
+				/product/toList=anon
+				/user/login=anon
+				/**=authc
+			</value>
+		</property>
+		<!-- 修改shiro默认登陆请求首页,默认首页是login.jsp -->
+		<property name="loginUrl" value="/toLogin" />
 	</bean>
-	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+	<bean id="securityManager"
+		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<!-- 关联realm -->
 		<property name="realm" ref="realm" />
 	</bean>

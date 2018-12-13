@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<h3>用户登陆</h3>
 	<div style="color:red">${msg}</div>
 	<!-- <font color="red"></font> -->
-	<form method="post" action="${pageContext.request.contextPath}/login">
+	<form method="post" action="${pageContext.request.contextPath}/user/login">
 		用户名：<input type="text" name="name"><br>
 		密码：<input type="password" name="password"><br> 
 		<input type="submit" value="登陆"/><br>

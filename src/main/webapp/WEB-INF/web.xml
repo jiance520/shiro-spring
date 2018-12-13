@@ -24,7 +24,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>shiroFilter</filter-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/*</url-pattern><!-- 一定要写成/*，不能写成/。否则value="/**=authc"无法拦截WEB-INF下面的页面 -->
 	</filter-mapping>
 
 	<!-- 启动SpringMVC -->
