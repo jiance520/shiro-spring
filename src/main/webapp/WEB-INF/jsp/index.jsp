@@ -24,8 +24,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <h3>商品管理后台系统主页</h3><br>
     当前用户为:${sessionScope.userName}
     <hr/>
-    <a href="${pageContext.request.contextPath}/product/add.jsp">商品增加</a><br>
-    <a href="${pageContext.request.contextPath}/product/update.jsp">商品修改</a><br>
-    <a href="${pageContext.request.contextPath}/product/list.jsp">商品列表</a><br>
+    <a href="${pageContext.request.contextPath}/product/toAdd">商品增加</a><br>
+    <a href="${pageContext.request.contextPath}/product/toUpdate">商品修改</a><br>
+    <a href="${pageContext.request.contextPath}/product/toList">商品列表</a><br>
   </body>
 </html>

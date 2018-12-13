@@ -6,6 +6,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
@@ -13,8 +14,13 @@ public class MyRealm extends AuthorizingRealm{
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("执行授权...");
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		//基于资源的授权
+		info.addStringPermission("product:add");
+		//基于角色的授权
+		info.addRole("admin");
+		return info;
 	}
 
 	@Override

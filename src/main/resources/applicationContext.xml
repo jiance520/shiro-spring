@@ -22,11 +22,15 @@ http://www.springframework.org/schema/tx/spring-tx.xsd"
 		<property name="filterChainDefinitions">
 			<value>
 				/product/toList=anon
+				/product/toAdd=perms[product:add]
+				/product/toUpdate=roles[admin]
 				/user/login=anon
 				/**=authc
 			</value>
 		</property>
 		<!-- 修改shiro默认登陆请求首页,默认首页是login.jsp -->
+		<!--添加一个未授权的跳转访问页面-->
+		<property name="unauthorizedUrl" value="/unAuth"></property>
 		<property name="loginUrl" value="/toLogin" />
 	</bean>
 	<bean id="securityManager"
