@@ -1,4 +1,4 @@
-package cn.sm1234.doman;
+package cn.sm1234.domain;
 
 public class User {
 	private Integer id;
@@ -21,6 +21,10 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", password=" + password + "]";
 	}
 	
 }

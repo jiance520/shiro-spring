@@ -13,30 +13,38 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx.xsd"
 	xmlns:tx="http://www.springframework.org/schema/tx">
-	<!-- shiro与spring整合 <property name的值是固定写法 -->
-	<bean id="shiroFilter"
-		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<!-- 关联securityManager -->
-		<property name="securityManager" ref="securityManager" />
-		<!-- 使用shiro内置过滤器拦截资源，可以取代shiro.ini，不在web.xml里配置<param-value>classpath:shiro.ini /user/login=anon -->
-		<property name="filterChainDefinitions">
-			<value>
-				/product/toList=anon
-				/product/toAdd=perms[product:add]
-				/product/toUpdate=roles[admin]
-				/user/login=anon
-				/**=authc
-			</value>
-		</property>
-		<!-- 修改shiro默认登陆请求首页,默认首页是login.jsp -->
-		<!--添加一个未授权的跳转访问页面-->
-		<property name="unauthorizedUrl" value="/unAuth"></property>
-		<property name="loginUrl" value="/toLogin" />
+	<!-- 加载applicationContext-shiro.xml (重点)-->
+	<import resource="applicationContext-shiro.xml"/>
+	<!-- 加载mybatis和spring的一些配置 -->
+	<!-- 加载jdbc.properties配置 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+
+	<!-- 创建数据源,这里的id="dataSource" 不需要与jdbc.properties同名 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="url" value="${jdbc.url}"/>
+		<property name="driverClassName" value="${jdbc.driverClassName}"/>
+		<property name="username" value="${jdbc.user}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="maxActive" value="10"/>
 	</bean>
-	<bean id="securityManager"
-		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<!-- 关联realm -->
-		<property name="realm" ref="realm" />
+	<!-- mybatis与spring整合 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- mybatis别名包扫描,配置之后，在别的xml引用类，不用加cn.sm1234全名，简写User即可-->
+		<property name="typeAliasesPackage" value="cn.sm1234.domain"/>
 	</bean>
-	<bean id="realm" class="cn.sm1234.realms.MyRealm" />
+	
+	<!-- mybatis接口mapper扫描-->
+	<bean id="mapperBean" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.sm1234.dao"/>
+	</bean>
+	<!-- 开启事务 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 开启注解事务 -->
+	<!-- tx:advice   这种 是用 aop方式管理事物 ，需要配置aop:config声明事务通知-->
+	<!-- annotation-driven 这种是注解@Transactional方式管理事物 ，需要在 类里 加一些注解进行事物管理--> 
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<context:component-scan base-package="cn.sm1234"/>
 </beans>

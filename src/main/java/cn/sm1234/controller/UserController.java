@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.sm1234.doman.User;
+import cn.sm1234.domain.User;
 @Controller
 @RequestMapping("/user")
 public class UserController {

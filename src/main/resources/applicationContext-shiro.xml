@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd"
+	xmlns:tx="http://www.springframework.org/schema/tx">
+	<!-- shiro与spring整合 <property name的值是固定写法 -->
+	<bean id="shiroFilter"
+		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 关联securityManager -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 使用shiro内置过滤器拦截资源，可以取代shiro.ini，不在web.xml里配置<param-value>classpath:shiro.ini /user/login=anon -->
+		<property name="filterChainDefinitions">
+			<value>
+				/product/toList=anon
+				/product/toAdd=perms[product:add]
+				/product/toUpdate=roles[admin]
+				/user/login=anon
+				/**=authc
+			</value>
+		</property>
+		<!-- 修改shiro默认登陆请求首页,默认首页是login.jsp -->
+		<!--添加一个未授权的跳转访问页面-->
+		<property name="unauthorizedUrl" value="/unAuth"></property>
+		<property name="loginUrl" value="/toLogin" />
+	</bean>
+	<bean id="securityManager"
+		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 关联realm -->
+		<property name="realm" ref="realm" />
+	</bean>
+	<bean id="realm" class="cn.sm1234.realms.MyRealm" />
+</beans>

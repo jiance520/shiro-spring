@@ -6,7 +6,7 @@
 	<display-name>shiro-spring</display-name>
 
 	<context-param>
-		<param-name>contextConfigLocation</param-name><!-- 必须要有<param-name> -->
+		<param-name>contextConfigLocation</param-name><!-- 必须要有<param-name>，<param-name>对应的值contextConfigLocation都是固定参数名！ -->
 		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
 	<!-- 配置监听器，启动spring容器，就是读取application.xml里的bean，默认找web-inf/applicationContext.xml-->
@@ -18,6 +18,7 @@
 	
 	<!-- 配置spring整合shiro的过滤器 -->
 	<!-- DelegatingFilterProxy作用是把请求拦截下来，给spring容器的bean=shiroFilter对象处理，spring容器的bean对应的类在applicationContext.xml里配置-->
+	<!--shiroFilter名只需要跟applicationContext.xml中的bean统一即可-->
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
