@@ -22,14 +22,16 @@ public class UserController {
 		//使用shiro认证操作
 //		获取Subject对象，如果没有配置shiro.ini或filterChainDefinitions，则无法获取subject。
 		Subject subject = SecurityUtils.getSubject();
-//		封装用户信息
+//		封装登陆用户信息
 		AuthenticationToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
 //		执行认证
 		try {
 			subject.login(token);
-			String userName = (String)token.getPrincipal();
+//			String userName = (String)subject.getPrincipal();//不是token.getPrincipal()
+			User dbUser = (User)subject.getPrincipal();
 //			认证成功
-			request.getSession().setAttribute("userName", userName);
+//			request.getSession().setAttribute("userName", userName);
+			request.getSession().setAttribute("userName", dbUser.getName());
 			return "redirect:/index";
 		} catch (UnknownAccountException e) {
 			System.out.println("用户不存在");

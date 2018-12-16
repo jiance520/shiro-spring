@@ -13,7 +13,7 @@ import cn.sm1234.domain.User;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 public class UserMapperTest {
-	@Resource
+	@Resource//相当于service层使用@Autowired通过 public void setUserMapper方法给userMapper注入值。
 	private UserMapper userMapper;
 	@Test
 	public void testFindByName() {
