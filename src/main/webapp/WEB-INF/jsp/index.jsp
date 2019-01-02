@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -24,8 +24,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <h3>商品管理后台系统主页</h3><br>
     当前用户为:${sessionScope.userName}
     <hr/>
-    <a href="${pageContext.request.contextPath}/product/toAdd">商品增加</a><br>
-    <a href="${pageContext.request.contextPath}/product/toUpdate">商品修改</a><br>
-    <a href="${pageContext.request.contextPath}/product/toList">商品列表</a><br>
+    <!-- 授权标签，如果有该权限，则显示该标签 -->
+    <shiro:hasPermission name="product:add">
+    <a href="${pageContext.request.contextPath}/product/toAdd">商品增加</a></br>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="product:update">
+    <a href="${pageContext.request.contextPath}/product/toUpdate">商品修改</a></br>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="product:list">
+    <a href="${pageContext.request.contextPath}/product/toList">商品列表</a></br>
+    </shiro:hasPermission>
   </body>
 </html>

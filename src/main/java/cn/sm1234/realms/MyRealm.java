@@ -1,30 +1,43 @@
 package cn.sm1234.realms;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 import cn.sm1234.domain.User;
 import cn.sm1234.service.UserService;
 
+import javax.annotation.Resource;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.*;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.alibaba.druid.util.StringUtils;
+
 public class MyRealm extends AuthorizingRealm{
-	@Autowired
+	@Resource
 	private UserService userService;
+//	授权方法
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
 		System.out.println("执行授权...");
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		//基于资源的授权
+/*		//基于资源的授权
 		info.addStringPermission("product:add");
 		//基于角色的授权
-		info.addRole("admin");
+		info.addRole("admin");*/
+//		获取当前用户的pricipal
+		User dbUser = (User)SecurityUtils.getSubject().getPrincipal();
+//		查询当前用户拥有的资源授权码。
+		List<String> perms = userService.findPermissionByUserId(dbUser.getId());
+		if(perms!=null) {
+//			遍历授权
+			for(String perm:perms) {
+				if(!StringUtils.isEmpty(perm)) {
+					info.addStringPermission(perm);
+				}
+			}
+		}
 		return info;
 	}
 
@@ -47,5 +60,4 @@ public class MyRealm extends AuthorizingRealm{
 		return new SimpleAuthenticationInfo(dbUser, dbUser.getPassword(), "");
 
 	}
-
 }

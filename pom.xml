@@ -107,6 +107,7 @@
 					<server>tomcat7</server>
 				</configuration>
 			</plugin>
+			<!-- 打包方式，可有可无 -->
 <!-- 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
