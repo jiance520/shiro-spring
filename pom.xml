@@ -87,6 +87,7 @@
 	<build>
 		<plugins>
 			<!-- jdk版本插件升级 项目>右键>maven>update project -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -108,14 +109,9 @@
 				</configuration>
 			</plugin>
 			<!-- 打包方式，可有可无 -->
-<!-- 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<createDependencyReducedPom>false</createDependencyReducedPom>
-				</configuration>
-			</plugin> -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
+				<version>3.0.0</version> <configuration> <createDependencyReducedPom>false</createDependencyReducedPom> 
+				</configuration> </plugin> -->
 		</plugins>
 	</build>
 </project>
